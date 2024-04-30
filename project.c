@@ -42,7 +42,7 @@ int isEmpty(Stack *s) {
     return s->top ? 0 : 1;
 }
 
-int prioroty(char c){
+int priority(char c){
     switch (c) {
         case '(':
             return 2;
@@ -71,7 +71,7 @@ char* infixTopostfix(char*infix){
         else if(isEmpty(s))
             push(s, infix[i]);
         else{
-            while(!isEmpty(s) && prioroty(peek(s)) >= prioroty(infix[i]) && peek(s) != '(')
+            while(!isEmpty(s) && priority(peek(s)) >= priority(infix[i]) && peek(s) != '(')
                 postfix[j++] = pop(s);
             push(s, infix[i]);
         }
@@ -88,16 +88,5 @@ char* infixTopostfix(char*infix){
 
 
 int main(void) {
-    Stack *s = initialize();
-    push(s, 16.78);
-    push(s, 16);
-    push(s, -5);
-    printf("%.2f", peek(s));
-    printf("\n");
-    printf("%.2f", pop(s));
-    printf("\n");
-    printf("%.2f", pop(s));
-    printf("\n");
-    free(s);
     return 0;
 }
