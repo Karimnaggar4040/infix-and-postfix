@@ -4,7 +4,7 @@
 #include <math.h>
 
 typedef struct {
-    char *data;
+    char data[5];
     struct Node *next;
 } Node;
 
@@ -28,7 +28,7 @@ float pop(Stack *s) {
 
 void push(Stack *s, float value) {
     Node *n = malloc(sizeof(Node));
-    sprintf(n->data, "%.2f", value);
+    sprintf(n->data, "%f", value);
     n->next = s->top;
     s->top = n;
 }
@@ -52,11 +52,12 @@ int main(void) {
     Stack *s = initialize();
     push(s, 16.78);
     push(s, 16);
-    printf("%f", peek(s));
+    push(s, -5);
+    printf("%.2f", peek(s));
     printf("\n");
-    printf("%f", pop(s));
+    printf("%.2f", pop(s));
     printf("\n");
-    printf("%f", pop(s));
+    printf("%.2f", pop(s));
     printf("\n");
     free(s);
     return 0;
