@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
 #include <math.h>
 
@@ -41,8 +42,44 @@ int isEmpty(Stack *s) {
     return s->top ? 0 : 1;
 }
 
-char* infixTopostfix(char*infix){
+int prioroty(char c){
+    switch (c) {
+        case '(':
+            return 2;
+        case '*':
+        case '/':
+        case '%':
+            return 1;
+        case '+':
+        case '-':
+            return 0;
+    }
+}
 
+char* infixTopostfix(char*infix){
+    int i, j = 0;
+    char* postfix = malloc(sizeof(strlen(infix) + 1));
+    Stack* s = initialize();
+    for (i = 0; i < strlen(infix); i++) {
+        if(isdigit(infix[i]))
+            postfix[j++] = infix[i];
+        else if(infix[i] == ')'){
+            while(!isEmpty(s) && peek(s) != '(')
+                postfix[j++] = pop(s);
+            pop(s);
+        }
+        else if(isEmpty(s))
+            push(s, infix[i]);
+        else{
+            while(!isEmpty(s) && prioroty(peek(s)) >= prioroty(infix[i]) && peek(s) != '(')
+                postfix[j++] = pop(s);
+            push(s, infix[i]);
+        }
+    }
+    while (!isEmpty(s))
+        postfix[j++] = pop(s);
+    postfix[j] = '\0';
+    return postfix;
 }
 
 
