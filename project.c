@@ -41,7 +41,9 @@ int isEmpty(Stack *s) {
     return s->top ? 0 : 1;
 }
 
+char* infixTopostfix(char*infix){
 
+}
 
 
 
