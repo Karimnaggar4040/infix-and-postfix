@@ -1,0 +1,3 @@
+C:/Users/ziada/OneDrive/Documents/GitHub/infix-and-postfix/cmake-build-debug/CMakeFiles/infix_and_postfix.dir
+C:/Users/ziada/OneDrive/Documents/GitHub/infix-and-postfix/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/ziada/OneDrive/Documents/GitHub/infix-and-postfix/cmake-build-debug/CMakeFiles/rebuild_cache.dir
