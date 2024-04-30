@@ -42,7 +42,7 @@ int isEmpty(Stack *s) {
 }
 
 char* infixTopostfix(char*infix){
-    // Commmeennnnnnntt
+
 }
 
 
