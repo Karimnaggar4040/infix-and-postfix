@@ -60,6 +60,7 @@ int precedence(char c) {
     }
 }
 
+
 // Infix to postfix conversion function
 char *infixToPostfix(char *infix) {
     char *postfix = malloc(
