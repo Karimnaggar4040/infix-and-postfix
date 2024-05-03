@@ -115,7 +115,6 @@ char *infixToPostfix(char *infix) {
     return postfix;
 }
 
-
 int main(void) {
     char n[MAX];
     strcpy(n, infixToPostfix("2 + ( -2.5 + 3.14 ) * ( -5.4 + 8.1 ) ^ ( -0.5 )"));
