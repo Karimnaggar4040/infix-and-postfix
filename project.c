@@ -116,8 +116,6 @@ char* infixToPostfix(char* infix) {
 
 
 
-
-
 int main(void) {
     char n[MAX];
     strcpy(n,infixToPostfix("12 - 7 * 6"));
