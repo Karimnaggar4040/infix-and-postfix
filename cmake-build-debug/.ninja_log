@@ -1,3 +1,5 @@
 # ninja log v5
 1	67	7361884459147048	CMakeFiles/infix_and_postfix.dir/project.c.obj	e1ceeecd407632df
 67	155	7361884459986489	infix_and_postfix.exe	e499f078f4d25cc5
+6	114	7364783272477070	CMakeFiles/infix_and_postfix.dir/project.c.obj	e1ceeecd407632df
+115	243	7364783273713133	infix_and_postfix.exe	499a4637c79d94ad
