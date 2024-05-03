@@ -81,6 +81,7 @@ char* infixToPostfix(char* infix)
 
     for (i = 0; i < strlen(infix); i++)
     {
+
         if (infix[i] == '-' && isdigit(infix[i + 1]))
         {
             postfix[j++] = '-';
@@ -97,22 +98,22 @@ char* infixToPostfix(char* infix)
             postfix[j++] = ' ';
 
 
-        if (ch == '(')
+        if (infix[i] == '(')
         {
             push(s, ch);
         }
-        else if (ch == ')')
+        else if (infix[i] == ')')
         {
             while ((ch = pop(s)) != '(' && !isEmpty(s))
             {
                 postfix[j++] = ch;
                 postfix[j++] = ' ';
             }
-            if (ch == '(')
-            {
-                printf("Invalid expression: Missing closing parenthesis\n");
-                exit(1);
-            }
+//            if (ch == '(')
+//            {
+//                printf("Invalid expression: Missing closing parenthesis\n");
+//                exit(1);
+//            }
         }
         else
         {
