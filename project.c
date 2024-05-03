@@ -123,7 +123,7 @@ char* infixToPostfix(char* infix)
                 postfix[j++] = pop(s);
                 postfix[j++] = ' ';
             }
-            push(s, ch);
+            push(s, infix[i]);
         }
     }
 
