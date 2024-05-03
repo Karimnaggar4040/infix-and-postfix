@@ -3,9 +3,9 @@
 #include <ctype.h>
 #include <string.h>
 #include <math.h>
-
+#define MAX 100
 typedef struct {
-    char data[5];
+    float data[MAX];
     struct Node *next;
 } Node;
 
@@ -20,10 +20,10 @@ Stack *initialize() {
 }
 
 float pop(Stack *s) {
-    Node *p = s->top;
-    float value = strtof(p->data, NULL);
-    s->top = p->next;
-    free(p);
+    Node *temp = s->top;
+    float value = strtof(temp->data, NULL);
+    s->top = temp->next;
+    free(temp);
     return value;
 }
 
@@ -42,51 +42,83 @@ int isEmpty(Stack *s) {
     return s->top ? 0 : 1;
 }
 
-int priority(char c){
+
+int precedence(char c){
     switch (c) {
-        case '(':
-            return 2;
+        case '^':
+            return 3;
         case '*':
         case '/':
         case '%':
-            return 1;
+            return 2;
         case '+':
         case '-':
+            return 1;
+        default:
             return 0;
     }
 }
 
-char* infixTopostfix(char*infix){
-    int i, j = 0;
-    char* postfix = malloc(sizeof(strlen(infix) + 1));
+// Infix to postfix conversion function
+char* infixToPostfix(char* infix) {
+    char* postfix = malloc(strlen(infix) + 2); // Allocate enough space for postfix expression (including null terminator)
     Stack* s = initialize();
+
+    int i , j = 0;
+    char ch;
+
     for (i = 0; i < strlen(infix); i++) {
-        if(isdigit(infix[i]))
-            postfix[j++] = infix[i];
-        else if(infix[i] == ')'){
-            while(!isEmpty(s) && peek(s) != '(')
-                postfix[j++] = pop(s);
-            pop(s);
+        if (infix[i] == '-' && isdigit(infix[i + 1])){
+            postfix[j++] = '-';
+            i++;
         }
-        else if(isEmpty(s))
-            push(s, infix[i]);
-        else{
-            while(!isEmpty(s) && priority(peek(s)) >= priority(infix[i]) && peek(s) != '(')
+        while (isdigit(infix[i]) || infix[i] == '.'){
+            postfix[j++] = infix[i];
+            i++;
+        }
+        if(infix[i]==' ')
+            continue;
+        if(postfix[j-1]!=' ')
+            postfix[j++]=' ';
+
+
+        if (ch == '(') {
+            push(s, ch);
+        } else if (ch == ')') {
+            while ((ch = pop(s)) != '(' && !isEmpty(s)) {
+                postfix[j++] = ch;
+                postfix[j++] = ' ';
+            }
+            if (ch == '(') {
+                printf("Invalid expression: Missing closing parenthesis\n");
+                exit(1);
+            }
+        } else {  // Operator (+, -, *, /, %, ^)
+            while (!isEmpty(s) && precedence(peek(s)) >= precedence(ch)) {
                 postfix[j++] = pop(s);
-            push(s, infix[i]);
+                postfix[j++] = ' ';
+            }
+            push(s, ch);
         }
     }
-    while (!isEmpty(s))
+
+    // Pop remaining operators from the stack
+    while (!isEmpty(s)) {
         postfix[j++] = pop(s);
-    postfix[j] = '\0';
+        postfix[j++] = ' ';
+    }
+    postfix[j] = '\0'; // Add null terminator
+
+    free(s);  // Free memory allocated for the stack
     return postfix;
 }
 
 
 
 
-
-
 int main(void) {
+    char n[MAX];
+    strcpy(n,infixToPostfix("12 - 7 * 6"));
+    printf("%s", n);
     return 0;
 }
