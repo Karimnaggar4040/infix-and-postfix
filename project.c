@@ -156,10 +156,12 @@ float evaluate(float operand1 , float operand2 , char operator)
         return operand1 / operand2;
     case '^':
         return pow(operand1,operand2);
+    case '%':
+        return (int)operand1 % (int)operand2;
     }
-
-
 }
+
+
 float PostfixEvaluation(char* postfix)
 {
     int i, j = 0;
@@ -186,8 +188,8 @@ float PostfixEvaluation(char* postfix)
             push(s,number2);
         }
 
-        // IF SYMBOL IS AN OPERAND
-        if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^') && postfix[j++] == ' ');
+        // IF SYMBOL IS AN OPERATOR
+        if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^' || postfix[j] == '%') && postfix[j++] == ' ')
         {
             operand2 = pop(s);
             operand1 = pop(s);
@@ -206,7 +208,7 @@ int main(void)
     fgets(infix, MAX, stdin);
     postfix = infixToPostfix(infix);
     printf("The postfix expression is: \n%s\n", postfix);
-    float result = PostfixEvaluation(postfix);
-    printf("Result: %.2f",result);
+    // float result = PostfixEvaluation(postfix);
+    // printf("Value: %.1f",result);
     return 0;
 }
