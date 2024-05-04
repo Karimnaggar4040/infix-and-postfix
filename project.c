@@ -142,7 +142,7 @@ float evaluate(float operand1, float operand2, char operator) {
 
 float PostfixEvaluation(char *postfix) {
     int i, j = 0;
-    float number1, number2, operand2, operand1, result;
+    float number1, number2, number3, operand2, operand1, result;
     Stack *s = initialize();
     for (i = 0; i < strlen(postfix); i++) {
         // IF SYMBOL IS AN OPERAND : push in stack
@@ -155,29 +155,53 @@ float PostfixEvaluation(char *postfix) {
             push(s, number1);
         }
         // Need a condition that skips the space
-        if (isdigit(postfix[j]) && postfix[j + 1] == ' ' && postfix[j - 1] == ' ')// +ve single digit
+        if (isdigit(postfix[j]) && postfix[j + 1] == ' ')// +ve single digit
             push(s, postfix[i] - '0');
 
 
-        if (isdigit(postfix[j]) && postfix[j + 1] == '.')//floating point
+        if ((isdigit(postfix[j]) && postfix[j + 1] == '.') || (postfix[j] == '-' && isdigit(postfix[j + 1]) && postfix[j + 2] == '.'))//floating point one digit
         {
-            float number3 = postfix[j] - '0';
+            int flag = 0;
+            number3 = 1;
+            if (postfix[j] == '-'){
+                number3 = -1;
+                j++;
+                i++;
+                flag = 1;     //-1.1
+            }
+            number3 *= (postfix[j] - '0');
             int k = j + 2, f = 1;
             while (isdigit(postfix[k])) {
-                number3 += (postfix[k] - '0')* pow(0.1, f);
+                if (flag)
+                    number3 -= (postfix[k] - '0')* pow(0.1, f);
+                else
+                    number3 += (postfix[k] - '0')* pow(0.1, f);
                 k++;
                 f++;
+                i++;
             }
+            i++;
             push(s, number3);
         }
 
-        if (isdigit(postfix[j]) && isdigit(postfix[j + 1]))// Double Digit
+        if ((isdigit(postfix[j]) && isdigit(postfix[j + 1])) || (postfix[j] == '-' && isdigit(postfix[j + 1]) && isdigit(postfix[j + 2])))// Double Digit
         {
-            number2 = (postfix[i] - '0') * 10 + (postfix[i + 1] - '0');
+            int flag = 0;
+            number2 = 1;
+            if(postfix[j] == '-') {
+                number2 = -1;
+                j++;
+                i++;
+                flag = 1;
+            }
+            number2 *= (postfix[i] - '0') * 10 + (postfix[i + 1] - '0');
             if (isdigit(postfix[j]) && postfix[j + 2] == '.'){
                 int k = j + 3, f = 1;
                 while (isdigit(postfix[k])) {
-                    number2 += (postfix[k] - '0')* pow(0.1, f);
+                    if (flag)
+                        number2 -= (postfix[k] - '0')* pow(0.1, f);
+                    else
+                        number2 += (postfix[k] - '0')* pow(0.1, f);
                     k++;
                     f++;
                     i++;
@@ -208,6 +232,6 @@ int main(void) {
     postfix = infixToPostfix(infix);
     printf("The postfix expression is: \n%s\n", postfix);
     float result = PostfixEvaluation(postfix);
-    printf("Value: %.2f", result);
+    printf("Value: %f", result);
     return 0;
 }
