@@ -4,6 +4,11 @@
 #include <string.h>
 #define MAX 100
 
+
+//Handle the case where an undefined operator is entered (in precedence function)
+//Handle the case of missing one of the parentheses (in the parentheses' condition)
+
+
 typedef struct {
     float data[MAX];
     struct Node *next;
