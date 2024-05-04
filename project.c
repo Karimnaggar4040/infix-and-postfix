@@ -11,76 +11,76 @@
 //Handle the case of missing one of the parentheses (in the parentheses' condition)
 
 
-typedef struct {
+typedef struct{
     float data;
-    struct Node *next;
+    struct Node* next;
 } Node;
 
-typedef struct {
-    Node *top;
+typedef struct{
+    Node* top;
 } Stack;
 
-Stack *initialize() {
-    Stack *s = malloc(sizeof(Stack));
+Stack* initialize(){
+    Stack* s = malloc(sizeof(Stack));
     s->top = NULL;
     return s;
 }
 
-float pop(Stack *s) {
-    Node *temp = s->top;
+float pop(Stack* s){
+    Node* temp = s->top;
     float value = temp->data;
     s->top = temp->next;
     free(temp);
     return value;
 }
 
-void push(Stack *s, float value) {
-    Node *n = malloc(sizeof(Node));
+void push(Stack* s, float value){
+    Node* n = malloc(sizeof(Node));
     n->data = value;
     n->next = s->top;
     s->top = n;
 }
 
-float peek(Stack *s) {
+float peek(Stack* s){
     return s->top->data;
 }
 
-int isEmpty(Stack *s) {
+int isEmpty(Stack* s){
     return s->top ? 0 : 1;
 }
 
 
-int precedence(char c) {
-    switch (c) {
-        case '^':
-            return 3;
-        case '*':
-        case '/':
-        case '%':
-            return 2;
-        case '+':
-        case '-':
-            return 1;
-        default:
-            return 0;
+int precedence(char c){
+    switch (c){
+    case '^':
+        return 3;
+    case '*':
+    case '/':
+    case '%':
+        return 2;
+    case '+':
+    case '-':
+        return 1;
+    default:
+        return 0;
     }
 }
 
 // Infix to postfix conversion function
-char *infixToPostfix(char *infix) {
-    char *postfix = malloc(
-            strlen(infix) + 2); // Allocate enough space for postfix expression (including null terminator)
-    Stack *s = initialize();
+char* infixToPostfix(char* infix){
+    char* postfix = malloc(
+        strlen(infix) + 2); // Allocate enough space for postfix expression (including null terminator)
+    Stack* s = initialize();
 
     int i, j = 0;
     char ch;
 
-    for (i = 0; i < strlen(infix); i++) {
-        if (infix[i] == '-' && isdigit(infix[i + 1])) {
+    for (i = 0; i < strlen(infix); i++){
+        if (infix[i] == '-' && isdigit(infix[i + 1])){
             postfix[j++] = '-';
             i++;
         }
-        while (isdigit(infix[i]) || infix[i] == '.') {
+        while (isdigit(infix[i]) || infix[i] == '.'){
             postfix[j++] = infix[i];
             i++;
         }
@@ -90,10 +90,11 @@ char *infixToPostfix(char *infix) {
         if (postfix[j - 1] != ' ')
             postfix[j++] = ' ';
 
-        if (infix[i] == '(') {
+        if (infix[i] == '('){
             push(s, infix[i]);
-        } else if (infix[i] == ')') {
-            while ((ch = pop(s)) != '(' && !isEmpty(s)) {
+        }
+        else if (infix[i] == ')'){
+            while ((ch = pop(s)) != '(' && !isEmpty(s)){
                 postfix[j++] = ch;
                 postfix[j++] = ' ';
             }
@@ -101,9 +102,10 @@ char *infixToPostfix(char *infix) {
             //                printf("Invalid expression: Missing closing parenthesis\n");
             //                exit(1);
             //            }
-        } else {
+        }
+        else{
             // operand2 (+, -, *, /, %, ^)
-            while (!isEmpty(s) && precedence(peek(s)) >= precedence(infix[i])) {
+            while (!isEmpty(s) && precedence(peek(s)) >= precedence(infix[i])){
                 postfix[j++] = pop(s);
                 postfix[j++] = ' ';
             }
@@ -112,7 +114,7 @@ char *infixToPostfix(char *infix) {
     }
 
     // Pop remaining operand2s from the stack
-    while (!isEmpty(s)) {
+    while (!isEmpty(s)){
         postfix[j++] = pop(s);
         postfix[j++] = ' ';
     }
@@ -122,29 +124,29 @@ char *infixToPostfix(char *infix) {
     return postfix;
 }
 
-float evaluate(float operand1, float operand2, char operator) {
-    switch (operator) {
-        case '+':
-            return operand1 + operand2;
-        case '-':
-            return operand1 - operand2;
-        case '*':
-            return operand1 * operand2;
-        case '/':
-            return operand1 / operand2;
-        case '^':
-            return pow(operand1, operand2);
-        case '%':
-            return (int) operand1 % (int) operand2;
+float evaluate(float operand1, float operand2, char operator){
+    switch (operator){
+    case '+':
+        return operand1 + operand2;
+    case '-':
+        return operand1 - operand2;
+    case '*':
+        return operand1 * operand2;
+    case '/':
+        return operand1 / operand2;
+    case '^':
+        return pow(operand1, operand2);
+    case '%':
+        return (int)operand1 % (int)operand2;
     }
 }
 
 
-float PostfixEvaluation(char *postfix) {
+float PostfixEvaluation(char* postfix){
     int i, j = 0;
     float number1, number2, operand2, operand1, result;
-    Stack *s = initialize();
-    for (i = 0; i < strlen(postfix); i++) {
+    Stack* s = initialize();
+    for (i = 0; i < strlen(postfix); i++){
         // IF SYMBOL IS AN OPERAND : push in stack
         j = i; // ??????? 3lshan ndmn en el j tb2a mashya m3 el i mn awal el loop
         if (postfix[j] == '-' && postfix[j + 1] != ' ' && postfix[j + 2] == ' ') // -ve one digit number
@@ -155,23 +157,23 @@ float PostfixEvaluation(char *postfix) {
             push(s, number1);
         }
         // Need a condition that skips the space
-        if (isdigit(postfix[j]) && postfix[j + 1] == ' ' && postfix[j - 1] == ' ')// +ve single digit
+        if (isdigit(postfix[j]) && postfix[j + 1] == ' ' && postfix[j - 1] == ' ') // +ve single digit
             push(s, postfix[i] - '0');
 
 
-        if (isdigit(postfix[j]) && postfix[j + 1] == '.')//floating point
+        if (isdigit(postfix[j]) && postfix[j + 1] == '.') //floating point
         {
             float number3 = postfix[j] - '0';
             int k = j + 2, f = 1;
-            while (isdigit(postfix[k])) {
-                number3 += (postfix[k] - '0')* pow(0.1, f);
+            while (isdigit(postfix[k])){
+                number3 += (postfix[k] - '0') * pow(0.1, f);
                 k++;
                 f++;
             }
             push(s, number3);
         }
 
-        if (isdigit(postfix[j]) && isdigit(postfix[j + 1]))// Double Digit
+        if (isdigit(postfix[j]) && isdigit(postfix[j + 1])) // Double Digit
         {
             number2 = (postfix[i] - '0') * 10 + (postfix[i + 1] - '0');
             if (isdigit(postfix[j]) && postfix[j + 2] == '.'){
@@ -189,7 +191,7 @@ float PostfixEvaluation(char *postfix) {
 
         // IF SYMBOL IS AN OPERATOR
         if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^' ||
-             postfix[j] == '%') && postfix[j + 1] == ' ') {
+            postfix[j] == '%') && postfix[j + 1] == ' '){
             operand2 = pop(s);
             operand1 = pop(s);
             char operator = postfix[j];
@@ -200,7 +202,7 @@ float PostfixEvaluation(char *postfix) {
     return pop(s);
 }
 
-int main(void) {
+int main(void){
     char infix[MAX], *postfix;
     printf("Please enter the infix expression:\n");
     fflush(stdin);
