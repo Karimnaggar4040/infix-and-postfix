@@ -170,7 +170,7 @@ float PostfixEvaluation(char* postfix)
     for (i = 0; i < strlen(postfix); i++)
     {
         // IF SYMBOL IS AN OPERAND : push in stack
-        // j = i; ??????? 3lshan ndmn en el j tb2a mashya m3 el i mn awal el loop
+        j = i; // ??????? 3lshan ndmn en el j tb2a mashya m3 el i mn awal el loop
         if (postfix[j++] == '-' && postfix[j] != ' ') // -ve one digit number
         {
             i++;
@@ -208,7 +208,7 @@ int main(void)
     fgets(infix, MAX, stdin);
     postfix = infixToPostfix(infix);
     printf("The postfix expression is: \n%s\n", postfix);
-    // float result = PostfixEvaluation(postfix);
-    // printf("Value: %.1f",result);
+    float result = PostfixEvaluation(postfix);
+    printf("Value: %.1f",result);
     return 0;
 }
