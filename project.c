@@ -141,6 +141,22 @@ char* infixToPostfix(char* infix)
     return postfix;
 }
 
+float PostfixEvaluation(char* postfix)
+{
+    int i, j = 0,flag=0;
+    Stack* s = initialize();
+    for (i = 0; i < strlen(postfix); i++)
+    {
+        if (postfix[j++] == '-' && postfix[j++] != ' ')
+        {
+            flag = 1;
+            i++;
+            if (postfix[i] >= '0' && postfix[i] <= '9')
+                push(s, postfix[i] - '0');
+
+        }
+    }
+}
 
 int main(void)
 {
