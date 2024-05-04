@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 #define MAX 100
 
 
-//Handle the case where an undefined operator is entered (in precedence function)
+//Handle the case where an undefined operand2 is entered (in precedence function)
 //Handle the case of missing one of the parentheses (in the parentheses' condition)
 
 
@@ -119,7 +120,7 @@ char* infixToPostfix(char* infix)
         }
         else
         {
-            // Operator (+, -, *, /, %, ^)
+            // operand2 (+, -, *, /, %, ^)
             while (!isEmpty(s) && precedence(peek(s)) >= precedence(infix[i]))
             {
                 postfix[j++] = pop(s);
@@ -129,7 +130,7 @@ char* infixToPostfix(char* infix)
         }
     }
 
-    // Pop remaining operators from the stack
+    // Pop remaining operand2s from the stack
     while (!isEmpty(s))
     {
         postfix[j++] = pop(s);
@@ -141,17 +142,35 @@ char* infixToPostfix(char* infix)
     return postfix;
 }
 
+float evaluate(float operand1 , float operand2 , char operator)
+{
+    switch (operator)
+    {
+    case '+':
+        return operand1 + operand2 ;
+    case '-':
+        return operand1 - operand2;
+    case '*':
+        return operand1 * operand2;
+    case '/':
+        return operand1 / operand2;
+    case '^':
+        return pow(operand1,operand2);
+    }
+
+
+}
 float PostfixEvaluation(char* postfix)
 {
-    int i, j = 0, flag = 0;
-    float number1,number2;
+    int i, j = 0;
+    float number1,number2,operand2,operand1,result;
     Stack* s = initialize();
     for (i = 0; i < strlen(postfix); i++)
     {
         // IF SYMBOL IS AN OPERAND : push in stack
+        // j = i; ??????? 3lshan ndmn en el j tb2a mashya m3 el i mn awal el loop
         if (postfix[j++] == '-' && postfix[j] != ' ') // -ve one digit number
         {
-            flag = 1;
             i++;
             number1 = -1 * (postfix[i] - '0');
             // if (postfix[i] >= '0' && postfix[i] <= '9') 3lshan howa law msh space yb2a digit
@@ -166,7 +185,18 @@ float PostfixEvaluation(char* postfix)
             number2 = (postfix[i] - '0') *10 + (postfix[i+1] - '0');
             push(s,number2);
         }
+
+        // IF SYMBOL IS AN OPERAND
+        if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^') && postfix[j++] == ' ');
+        {
+            operand2 = pop(s);
+            operand1 = pop(s);
+            char operator = postfix[j-1];
+            result = evaluate(operand1,operand2,operator);
+            push (s,result);
+        }
     }
+    return pop(s);
 }
 
 int main(void)
@@ -176,5 +206,7 @@ int main(void)
     fgets(infix, MAX, stdin);
     postfix = infixToPostfix(infix);
     printf("The postfix expression is: \n%s\n", postfix);
+    float result = PostfixEvaluation(postfix);
+    printf("Result: %.2f",result);
     return 0;
 }
