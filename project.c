@@ -143,17 +143,28 @@ char* infixToPostfix(char* infix)
 
 float PostfixEvaluation(char* postfix)
 {
-    int i, j = 0,flag=0;
+    int i, j = 0, flag = 0;
+    float number1,number2;
     Stack* s = initialize();
     for (i = 0; i < strlen(postfix); i++)
     {
-        if (postfix[j++] == '-' && postfix[j++] != ' ')
+        // IF SYMBOL IS AN OPERAND : push in stack
+        if (postfix[j++] == '-' && postfix[j] != ' ') // -ve one digit number
         {
             flag = 1;
             i++;
-            if (postfix[i] >= '0' && postfix[i] <= '9')
-                push(s, postfix[i] - '0');
+            number1 = -1 * (postfix[i] - '0');
+            // if (postfix[i] >= '0' && postfix[i] <= '9') 3lshan howa law msh space yb2a digit
+            push(s, number1);
+        }
+        // Need a condition that skips the space
+        if (isdigit(postfix[j++]) && postfix[j] == ' ')// +ve single digit
+            push(s, postfix[i]);
 
+        if (isdigit(postfix[j++]) && isdigit(postfix[j]))// Double Digit
+        {
+            number2 = (postfix[i] - '0') *10 + (postfix[i+1] - '0');
+            push(s,number2);
         }
     }
 }
