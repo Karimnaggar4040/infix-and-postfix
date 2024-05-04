@@ -60,7 +60,6 @@ int precedence(char c) {
     }
 }
 
-
 // Infix to postfix conversion function
 char *infixToPostfix(char *infix) {
     char *postfix = malloc(
@@ -71,6 +70,7 @@ char *infixToPostfix(char *infix) {
     char ch;
 
     for (i = 0; i < strlen(infix); i++) {
+//        ch = infix[i];
         if (infix[i] == '-' && isdigit(infix[i + 1])) {
             postfix[j++] = '-';
             i++;
@@ -85,9 +85,9 @@ char *infixToPostfix(char *infix) {
         if (postfix[j - 1] != ' ')
             postfix[j++] = ' ';
 
-        if (ch == '(') {
-            push(s, ch);
-        } else if (ch == ')') {
+        if (infix[i] == '(') {
+            push(s, infix[i]);
+        } else if (infix[i] == ')') {
             while ((ch = pop(s)) != '(' && !isEmpty(s)) {
                 postfix[j++] = ch;
                 postfix[j++] = ' ';
@@ -115,6 +115,7 @@ char *infixToPostfix(char *infix) {
     free(s);  // Free memory allocated for the stack
     return postfix;
 }
+
 
 int main(void) {
     char n[MAX];
