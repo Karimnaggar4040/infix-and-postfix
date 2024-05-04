@@ -171,7 +171,7 @@ float PostfixEvaluation(char* postfix)
     {
         // IF SYMBOL IS AN OPERAND : push in stack
         j = i; // ??????? 3lshan ndmn en el j tb2a mashya m3 el i mn awal el loop
-        if (postfix[j++] == '-' && postfix[j] != ' ') // -ve one digit number
+        if (postfix[j] == '-' && postfix[j+1] != ' ') // -ve one digit number
         {
             i++;
             number1 = -1 * (postfix[i] - '0');
@@ -179,17 +179,17 @@ float PostfixEvaluation(char* postfix)
             push(s, number1);
         }
         // Need a condition that skips the space
-        if (isdigit(postfix[j++]) && postfix[j] == ' ')// +ve single digit
+        if (isdigit(postfix[j]) && postfix[j+1] == ' ')// +ve single digit
             push(s, postfix[i]);
 
-        if (isdigit(postfix[j++]) && isdigit(postfix[j]))// Double Digit
+        if (isdigit(postfix[j]) && isdigit(postfix[j+1]))// Double Digit
         {
             number2 = (postfix[i] - '0') *10 + (postfix[i+1] - '0');
             push(s,number2);
         }
 
         // IF SYMBOL IS AN OPERATOR
-        if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^' || postfix[j] == '%') && postfix[j++] == ' ')
+        if ((postfix[j] == '+' || postfix[j] == '-' || postfix[j] == '*' || postfix[j] == '/' || postfix[j] == '^' || postfix[j] == '%') && postfix[j+1] == ' ')
         {
             operand2 = pop(s);
             operand1 = pop(s);
@@ -205,6 +205,7 @@ int main(void)
 {
     char infix[MAX], *postfix;
     printf("Please enter the infix expression:\n");
+    fflush(stdin);
     fgets(infix, MAX, stdin);
     postfix = infixToPostfix(infix);
     printf("The postfix expression is: \n%s\n", postfix);
