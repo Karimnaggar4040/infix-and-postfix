@@ -2,9 +2,8 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <math.h>
-
 #define MAX 100
+
 typedef struct {
     float data[MAX];
     struct Node *next;
@@ -70,7 +69,6 @@ char *infixToPostfix(char *infix) {
     char ch;
 
     for (i = 0; i < strlen(infix); i++) {
-//        ch = infix[i];
         if (infix[i] == '-' && isdigit(infix[i + 1])) {
             postfix[j++] = '-';
             i++;
@@ -118,8 +116,10 @@ char *infixToPostfix(char *infix) {
 
 
 int main(void) {
-    char n[MAX];
-    strcpy(n, infixToPostfix("2 + ( -2.5 + 3.14 ) * ( -5.4 + 8.1 ) ^ ( -0.5 )"));
-    printf("%s", n);
+    char infix[MAX], *postfix;
+    printf("Please enter the infix expression:\n");
+    fgets(infix, MAX, stdin);
+    postfix = infixToPostfix(infix);
+    printf("The postfix expression is: \n%s\n", postfix);
     return 0;
 }
