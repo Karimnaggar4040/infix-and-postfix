@@ -167,7 +167,7 @@ float PostfixEvaluation(char *postfix) {
                 number3 = -1;
                 j++;
                 i++;
-                flag = 1;     //-1.1
+                flag = 1;
             }
             number3 *= (postfix[j] - '0');
             int k = j + 2, f = 1;
