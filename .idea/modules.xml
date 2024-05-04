@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/infix-and-postfix.iml" filepath="$PROJECT_DIR$/.idea/infix-and-postfix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/infix_and_postfix.iml" filepath="$PROJECT_DIR$/.idea/infix_and_postfix.iml" />
     </modules>
   </component>
 </project>
